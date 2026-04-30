@@ -1,6 +1,6 @@
 ---
 name: review-content
-description: "Review the content quality of a video, presentation, or long-form narration on 18 axes — structure (hook / SCQA / logic / pacing), content (accuracy / coverage / specificity / redundancy), delivery (clarity / audience-fit / engagement / emotion / memorable phrases / visual-narration sync), and persuasion (credibility / counterargument handling / takeaway / title match). Outputs an A/B/C/D scorecard and concrete improvement actions. Trigger on: \"review my content\", \"check my narration\", \"is this video good\", \"feedback on my talk\", \"score my presentation\", \"review my script\". This skill evaluates *your own* content — for studying *external* reference videos, use an analyze-video skill."
+description: "Review your video, presentation, or narration script's content quality on 18 axes (structure / content / delivery / persuasion). Outputs an A/B/C/D scorecard with concrete improvements. Trigger on: \"review my content\", \"check my narration\", \"score my presentation\", \"feedback on my talk\". For studying *external* reference videos, use analyze-video."
 user-invocable: true
 allowed-tools: Read, Write, Edit, Grep, Glob, Bash, Task
 argument-hint: [project-name] [--source] [--rewrite]
