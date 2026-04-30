@@ -1,0 +1,22 @@
+{
+  "name": "review-content",
+  "description": "Review the content quality of a video, presentation, or long-form narration on 18 axes (structure / content / delivery / persuasion). Outputs an A/B/C/D scorecard with concrete improvement actions. Optional source-of-truth comparison and rewrite suggestions.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Eruto Kondo",
+    "email": "erutobusiness@gmail.com"
+  },
+  "homepage": "https://github.com/eruto-skills/review-content",
+  "repository": "https://github.com/eruto-skills/review-content",
+  "license": "MIT",
+  "keywords": [
+    "claude-code",
+    "claude-code-skill",
+    "review",
+    "content-quality",
+    "narrative",
+    "scqa",
+    "video",
+    "presentation"
+  ]
+}
