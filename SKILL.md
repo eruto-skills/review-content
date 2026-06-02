@@ -1,6 +1,6 @@
 ---
 name: review-content
-description: "Review your video, presentation, or narration script's content quality on 18 axes (structure / content / delivery / persuasion). Outputs an A/B/C/D scorecard with concrete improvements. Trigger on: \"review my content\", \"check my narration\", \"score my presentation\", \"feedback on my talk\". For studying *external* reference videos, use analyze-video."
+description: "Review your video, presentation, or narration script's content quality on a sourced rubric — a gate 'central message (throughline)' axis + 18 axes (structure / content / delivery / persuasion) + a conditional time-budget axis. Outputs an A/B/C/D scorecard (gate + threshold aggregation) with concrete improvements. Trigger on: \"review my content\", \"check my narration\", \"score my presentation\", \"feedback on my talk\". For studying *external* reference videos, use analyze-video."
 user-invocable: true
 allowed-tools: Read, Write, Edit, Grep, Glob, Bash, Task
 argument-hint: [project-name] [--source] [--rewrite]
@@ -22,11 +22,11 @@ Reviews narration / script content on 18 axes and outputs an A/B/C/D scorecard w
 3. **Source-of-truth comparison** (when `--source` is enabled and Project Integration declares a source)
    - Read source files / notes
    - Identify: missing key info, distorted meaning, inaccurate quotes/numbers
-4. **18-axis evaluation** → [evaluation-axes](references/evaluation-axes.md)
-   - Each axis: A/B/C/D + concrete rationale + improvement suggestion
-   - Axis 14 (visual-narration sync) is **conditional** — only evaluated when `Visual Assets` is declared
-5. **Compute total** following the rule in evaluation-axes.md
-   - Mode of the axis grades; axis 5 (accuracy) of D forces total D
+4. **Rubric evaluation** → [evaluation-axes](references/evaluation-axes.md)
+   - Gate `throughline` axis + 18 axes + conditional axes; each: A/B/C/D + concrete rationale + improvement, **with a quoted trigger line from the script**
+   - Axis 14 (visual-narration sync) and axis 19 (time-budget) are **conditional** — evaluated only when `Visual Assets` / a runtime are declared; otherwise skipped and noted
+5. **Compute total** following the gate + threshold rule in evaluation-axes.md
+   - Gate axes = `throughline` / logic(3) / accuracy(5) / coverage(6); a single non-accuracy D or throughline ≤C caps the grade; axis 5 (accuracy) = D forces total D
 6. **Write report** with the structure below
 7. **Lint** if Project Integration defines a lint command
 8. **QA check** → [qa-checklist](references/qa-checklist.md)
@@ -39,6 +39,11 @@ Reviews narration / script content on 18 axes and outputs an A/B/C/D scorecard w
 # Content Review: <project name>
 
 ## Scorecard
+
+### Gate
+| Axis | Grade | One-liner |
+|-|-|-|
+| 0. Throughline (≤15-word central message) | A | ... |
 
 ### Structure
 | Axis | Grade | One-liner |
@@ -74,8 +79,13 @@ Reviews narration / script content on 18 axes and outputs an A/B/C/D scorecard w
 | 17. Takeaway | A | ... |
 | 18. Title match | A | ... |
 
+### Conditional
+| Axis | Grade | One-liner |
+|-|-|-|
+| 19. Time-budget (only if runtime declared) | A / N/A | ... |
+
 **Total: <A/B/C/D>**
-(rule: mode of axes; axis 5=D forces total D)
+(rule: gate + threshold — gates = throughline / logic(3) / accuracy(5) / coverage(6); a single non-accuracy D or throughline ≤C caps the grade; accuracy=D → total D; A needs A-count ≥12 + zero D + all gates ≥B. Full rule in evaluation-axes.md)
 
 ## Greatest Strength
 <the highest-scoring axis and *why* it works, with quotes>
@@ -102,9 +112,10 @@ Reviews narration / script content on 18 axes and outputs an A/B/C/D scorecard w
 ### Evaluation Rules
 
 - **Be specific**: replace "the structure is good" with "the intro poses 3 questions and the body resolves them in order"
-- **Don't seek perfection**: A×12 (2/3 of axes) is "good enough to ship"
+- **Gate axes cap the grade**: `throughline` / logic(3) / accuracy(5) / coverage(6). A single non-accuracy D, or throughline ≤ C, limits the total regardless of the A-count. Cosmetic-leaning axes (12 emotion, 13 phrasing) feed the A-count but never gate.
+- **Don't seek perfection**: A-count ≥ 12 (with zero D and all gates ≥ B) is "good enough to ship"; write B as the realistic competent target
 - **Don't compromise on accuracy**: a single factual error → axis 5 = D → total = D
-- **Quote directly**: when describing strengths/weaknesses, quote the narration
+- **Quote every grade**: each axis grade cites the exact script sentence that triggered it; an A requires a quotable exemplar line (a grade with no quotable trigger is itself a defect to flag)
 
 ## Project Integration
 
