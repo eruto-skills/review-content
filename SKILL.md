@@ -19,12 +19,22 @@ Reviews narration / script content on 18 axes and outputs an A/B/C/D scorecard w
 2. **Acquire narration** following `Narration Source` declaration → [narration-sources](references/narration-sources.md)
    - Reads all narration fragments and assembles them into one chronological script
    - If no declaration exists, asks the user for the narration path
+   - **remotion-scenes**: run `scripts/extract-remotion-narration.js` (see narration-sources.md) to get slide texts in chronological order
+2b. **Detect unimplemented slides** (when Narration Source is `remotion-scenes`)
+   - Slides with `isPlaceholder: true` are reported in `## Unimplemented Slides` before the Scorecard
+   - Do **not** penalize content axes for content that belongs to unimplemented slides
+   - Do note in Axis 6 (coverage) how many and which slides are unimplemented
+   - Scope restriction: state "Evaluated N slides; M slides were Placeholder and excluded" at the top of the Scorecard
 3. **Source-of-truth comparison** (when `--source` is enabled and Project Integration declares a source)
    - Read source files / notes
    - Identify: missing key info, distorted meaning, inaccurate quotes/numbers
 4. **Rubric evaluation** → [evaluation-axes](references/evaluation-axes.md)
    - Gate `throughline` axis + 18 axes + conditional axes; each: A/B/C/D + concrete rationale + improvement, **with a quoted trigger line from the script**
    - Axis 14 (visual-narration sync) and axis 19 (time-budget) are **conditional** — evaluated only when `Visual Assets` / a runtime are declared; otherwise skipped and noted
+   - **Axis 14 — remotion-scenes**: code-review-only evaluation is NOT acceptable.
+     1. Generate PNG stills: run `scripts/generate-remotion-stills.js` from the Remotion project root (see narration-sources.md for args)
+     2. Read each PNG with the Read tool and visually inspect visual-narration alignment
+     3. Grade based on the actual visual inspection result, not TSX code inference
 5. **Compute total** following the gate + threshold rule in evaluation-axes.md
    - Gate axes = `throughline` / logic(3) / accuracy(5) / coverage(6); a single non-accuracy D or throughline ≤C caps the grade; axis 5 (accuracy) = D forces total D
 6. **Write report** with the structure below
@@ -37,6 +47,13 @@ Reviews narration / script content on 18 axes and outputs an A/B/C/D scorecard w
 
 ```markdown
 # Content Review: <project name>
+
+## Unimplemented Slides   <!-- only when remotion-scenes and placeholders exist -->
+> Evaluated N slides; M slides were Placeholder and excluded from scoring.
+
+| Key | Topic |
+|-|-|
+| xxx | ... |
 
 ## Scorecard
 
@@ -126,11 +143,13 @@ This skill works standalone, but is dramatically more useful with these declarat
 Declare where to fetch the narration script. Without this, the skill must ask the user every time.
 
 ```markdown
-- Type: shell-array | text-files | code-comments | yaml | manual
+- Type: shell-array | text-files | code-comments | yaml | remotion-scenes | manual
 - Path / pattern: <e.g., scripts/generate-audio.sh>
 - Variable / key (if applicable): <e.g., narrations[]>
 - Order: <how to assemble fragments — array key order, file name sort, etc.>
 ```
+
+For `remotion-scenes`, Path / pattern should point to the Remotion project root (e.g., `slides/llm-sampling/video`).
 
 → See [narration-sources](references/narration-sources.md) for per-type acquisition commands.
 

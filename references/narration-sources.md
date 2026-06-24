@@ -9,7 +9,7 @@ Project Integrationで以下のように宣言する。
 ```markdown
 ### Narration Source
 
-- Type: shell-array | text-files | code-comments | yaml | manual
+- Type: shell-array | text-files | code-comments | yaml | remotion-scenes | manual
 - Path / pattern: <e.g., scripts/generate-audio.sh, narrations/*.txt>
 - Variable / key (if applicable): <e.g., narrations[]>
 - Order: <how to assemble multiple fragments into a single timeline>
@@ -51,6 +51,29 @@ ls narrations/*.txt | sort | xargs cat
 # yqで抽出
 yq -r '.slides[].narration' narration.yaml
 ```
+
+### remotion-scenes (Remotion プロジェクト)
+
+Remotion の `slides.ts`（スライド定義）と `src/scenes/*.tsx`（シーンファイル）からテキストを抽出する。
+
+```bash
+# Remotion プロジェクトルートから実行
+node <eruto-skills>/review-content/scripts/extract-remotion-narration.js \
+  --slides=src/slides.ts \
+  --scenes=src/scenes \
+  --main=src/Main.tsx
+```
+
+出力: JSON 配列 `[{ key, topic, duration, isPlaceholder, texts[] }]`
+
+**スライド順序**: `slides.ts` の `sections[].slides[]` の記述順。  
+**Placeholder 検出**: `Main.tsx` の `renderSlide` 関数に `if (key === '...')` エントリがない → `isPlaceholder: true`。
+
+抽出後の台本組み立て手順:
+
+1. `isPlaceholder: true` のスライドは除外し「未実装スライド」セクションに列挙する
+2. 実装済みスライドの `texts[]` を key 順に連結して一本の台本とみなす
+3. セクション境界（label）を記録して後段のセクション別フィードバックに活用する
 
 ### manual
 
