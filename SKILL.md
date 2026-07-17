@@ -38,7 +38,7 @@ Reviews narration / script content on 18 axes and outputs an A/B/C/D scorecard w
 5. **Compute total** following the gate + threshold rule in evaluation-axes.md
    - Gate axes = `throughline` / logic(3) / accuracy(5) / coverage(6); a single non-accuracy D or throughline ≤C caps the grade; axis 5 (accuracy) = D forces total D
 6. **Write report** with the structure below
-7. **Lint** if Project Integration defines a lint command
+7. **Lint**: run the lint command from the project CLAUDE.md's 「品質ゲート」 section (or the Lint declaration below). If neither is declared, **write "散文 lint: 未設定" in the report header — do NOT silently skip this step**
 8. **QA check** → [qa-checklist](references/qa-checklist.md)
 
 ## Output Rules
@@ -133,6 +133,7 @@ Reviews narration / script content on 18 axes and outputs an A/B/C/D scorecard w
 - **Don't seek perfection**: A-count ≥ 12 (with zero D and all gates ≥ B) is "good enough to ship"; write B as the realistic competent target
 - **Don't compromise on accuracy**: a single factual error → axis 5 = D → total = D
 - **Quote every grade**: each axis grade cites the exact script sentence that triggered it; an A requires a quotable exemplar line (a grade with no quotable trigger is itself a defect to flag)
+- **修正ループは最大 2〜3 周**: 指摘 → 修正 → 再確認のループはそれ以上回さない（改善は初回1〜2周に集中し、以降は逓減・劣化しうる）。通らなければユーザーへエスカレーションする（品質チェック共通原則 6）
 
 ## Project Integration
 
@@ -191,11 +192,13 @@ If not declared, axis 14 is skipped and the report notes the omission.
 
 ### Lint (optional)
 
-If your project uses a Markdown linter, specify the command. The skill runs it on the saved review report.
+The standard source is the project CLAUDE.md's **「品質ゲート」 section**（品質チェック共通原則 `@projects/CLAUDE.md` 参照）— declare the lint command there. A legacy per-skill declaration below also works.
 
 ```markdown
 npx textlint <path>
 ```
+
+If no command is declared anywhere, the report must state 「散文 lint: 未設定」 instead of skipping silently.
 
 ### Cross-Skill Integration
 
