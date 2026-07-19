@@ -133,7 +133,7 @@ Reviews narration / script content on 18 axes and outputs an A/B/C/D scorecard w
 - **Don't seek perfection**: A-count ≥ 12 (with zero D and all gates ≥ B) is "good enough to ship"; write B as the realistic competent target
 - **Don't compromise on accuracy**: a single factual error → axis 5 = D → total = D
 - **Quote every grade**: each axis grade cites the exact script sentence that triggered it; an A requires a quotable exemplar line (a grade with no quotable trigger is itself a defect to flag)
-- **修正ループは最大 2〜3 周**: 指摘 → 修正 → 再確認のループはそれ以上回さない（改善は初回1〜2周に集中し、以降は逓減・劣化しうる）。通らなければユーザーへエスカレーションする（品質チェック共通原則 6）
+- **修正ループは最大 2〜3 周**: 指摘 → 修正 → 再確認のループはそれ以上回さない（改善は初回1〜2周に集中し、以降は逓減・劣化しうる）。通らなければユーザーへエスカレーションする
 
 ## Project Integration
 
@@ -192,7 +192,7 @@ If not declared, axis 14 is skipped and the report notes the omission.
 
 ### Lint (optional)
 
-The standard source is the project CLAUDE.md's **「品質ゲート」 section**（品質チェック共通原則 `@projects/CLAUDE.md` 参照）— declare the lint command there. A legacy per-skill declaration below also works.
+The standard source is the host project CLAUDE.md's **「品質ゲート」 section** (if the project declares one) — declare the lint command there. A legacy per-skill declaration below also works.
 
 ```markdown
 npx textlint <path>
